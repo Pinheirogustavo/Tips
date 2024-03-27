@@ -19,13 +19,13 @@ Este artigo é um compilado (em constante atualização) de dicas para o uso das
 ## Iniciando qualquer circuito
 Geralmente quando incluímos um circuito elétrico em um texto, queremos referenciá-lo como uma figura. Para isso, o elemento de circuito é criado dentro de uma figura. 
 
-\begin{figure}[]
-\begin{center}
-\resizebox{\textwidth}{!}{
-	\begin{circuitikz}
+	\begin{figure}[]
+	\begin{center}
+	\resizebox{\textwidth}{!}{
+		\begin{circuitikz}
 		controles de criação do circuito;
-	\end{circuitikz}
-}
+		\end{circuitikz}
+	}
 	
 
 ### Uso dos componentes como nós
@@ -67,3 +67,15 @@ Podemos também usar as âncoras a partir de cordenadas.
 Exemplo: ponto ao norte do componente X: X.90
 ![âncoras de borda](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/ancoras_graus.png)
 
+ ##### Utilizando coordenadas temporárias para realizar as conexões
+É vantajoso utilizar coordenadas temporárias para estabelecer nós que não são cruciais na identificação do circuito, assim como para realizar mudanças de direções nos conectores entre componentes. 
+
+No comando anterior nós já usamos uma coordenada temporária (tmp), para definir o ponto em que seria conectado o nó ground.
+
+Agora utlizamos novamente a coordenada temporária **coordinate(tmp)**, para adicionar um conector vertical na entrada inversora do ampop, que dá origem ao ramo de feedback.
+
+	\draw (U1.-) to[short] ++(0,1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+
+A figura a seguir deixa explícita o uso desse recurso: 
+
+![coordenada_tmp](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A4.png)
