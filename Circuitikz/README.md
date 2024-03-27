@@ -55,4 +55,12 @@ No passo anterior utilizamos o comando (U1.+) para realizar uma conexão a parti
 A vantagem desse método é que a ligação entre componentes é realizada em pontos exatos, evitando erros de conexão nas figuras geradas. 
 > Amplificadores Operacionais: possuem âncoras identicas aos pinos de seus CIs. Nome.âncora: (U1.out)
 ![âncoras do amplificador operacional](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/ancoras_ampop.png)
+
+Podemos também usar as âncoras a partir de cordenadas.
+> .north .south .east .west .north east . south west ...
+> .left . center .right ... 
 - âncoras associadas com o ângulo envolta do componente.
+> Todos os componentes gráficos possuem âncoras ao seu redor que podem ser selecionadas com o ângulo referente.
+Exemplo: ponto ao norte do componente X: X.90
+![âncoras de borda](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/ancoras_graus.png)
+
