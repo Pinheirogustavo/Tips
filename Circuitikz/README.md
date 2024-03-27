@@ -76,6 +76,14 @@ Agora utlizamos novamente a coordenada temporária **coordinate(tmp)**, para adi
 
 	\draw (U1.-) to[short] ++(0,1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
 
-A figura a seguir deixa explícita o uso desse recurso: 
+A figura a seguir deixa explícito o uso desse recurso: 
 
 ![coordenada_tmp](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A4.png)
+
+ ##### Utilizando coordenadas fixas para realizar conexões e identificar nós importantes no circuito.
+ Ao criarmos uma coordenada como no caso anterior, podemos querer salvar o nó com um nome específico, pois ele será útil para novas conexões. Assim, ao invés de atualizarmos a mesma variável (tmp), criamos uma somente para aquele ponto, como no exemplo a seguir:
+ 
+	   \draw (U1.out) to[short] ++(2,0) coordinate(saída);
+Criamos uma coordenada fixa, chamada saída,  distante 2 cm da saída do amplificador. Esse nó será util em novas conexões e para ser destacado como um nó importante na análise do sinal. Novos usos desse recurso serão melhores explicados no decorrer do texto.
+
+![enter image description here](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A5.png)
