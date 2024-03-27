@@ -44,9 +44,11 @@ Uma estratégia interessante para criar esquemas de circuitos eletrônicos é in
 Na linha seguinte, comece a ligar os componentes que estão conectados a este primeiro nó. O comando para iniciar o desenho é \draw
 
      \draw (U1.+) to [sV] ++(-6,0) coordinate(tmp)  node[ground] (GND){};
-  ![ampop_fonte](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2.png)
-  ![ampop_fonte_pontos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2_PONTOS.png)
+  
  Esse comando adiciona uma fonte senoidal [sV] saindo da entrada não inversora do AmpOp (U1.+) **para** essa fonte, localizada no centro entre essa entrada e a coordenada temporária  "coordinate(tmp)". A partir dessa coordenada tmp, é adicionado um terra. 
+
+![ampop_fonte](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2.png)
+  ![ampop_fonte_pontos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2_PONTOS.png)
  
  ##### Utilizando as âncoras dos componentes para realizar as conexões
  
