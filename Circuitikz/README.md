@@ -23,9 +23,11 @@ Geralmente quando incluímos um circuito elétrico em um texto, queremos referen
 	\begin{center}
 	\resizebox{\textwidth}{!}{
 		\begin{circuitikz}
-		controles de criação do circuito;
+			controles de criação do circuito;
 		\end{circuitikz}
 	}
+	\end{center}
+	\end{figure}
 	
 
 ### Uso dos componentes como nós
@@ -87,3 +89,24 @@ A figura a seguir deixa explícito o uso desse recurso:
 Criamos uma coordenada fixa, chamada saída,  distante 2 cm da saída do amplificador. Esse nó será util em novas conexões e para ser destacado como um nó importante na análise do sinal. Novos usos desse recurso serão melhores explicados no decorrer do texto.
 
 ![enter image description here](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A5.png)
+
+ ##### Refinando o nosso primeiro circuito. Uso de opções de configuração de cada componente e destacando nós. 
+ 
+Atualmente temos o seguinte circuito *buffer* desenhado, a partir do seguinte código: 
+
+	\begin{figure}[]
+	\begin{center}
+	\resizebox{\textwidth}{!}{
+		\begin{circuitikz}
+	            \node [op amp](U1){\texttt{ampop}};
+	            \draw (U1.+) to [sV] ++(-6,0) coordinate(tmp)  node[ground] (GND){};
+	            \draw (U1.-) to[short] ++(0,1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+	            \draw (U1.out) to[short] ++(2,0) coordinate(saída);
+		\end{circuitikz}
+	}
+	\end{center}
+	\end{figure}
+
+![enter image description here](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A6.png)
+
+Você pode perceber alguns erros nessa apresentação, vamos refiná-la.
