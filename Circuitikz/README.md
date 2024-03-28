@@ -79,6 +79,13 @@ Também usamos um comando levemente diferente em cada exemplo. Primeiro utilizam
 
 ![construindo fios](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A8.png)
 
+**Outro modo de criar os fios de conexão como um próprio componente**, muito útil quando temos que identificar algum nó ou indicar correntes. O comando é **[short] **, que também possui diversas opções de configurações.
+
+	\draw(0,0) to [short, -*, i=$I_0$] (2,0);
+	
+>-*: acrescenta um circulo (nó) ao final do fio.
+>i=$I_0 $ : acrescenta uma seta e a legenda $I_O$ para a corrente.
+![short](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A11.png)
  ##### Utilizando as âncoras dos componentes para realizar as conexões
  
 No passo anterior utilizamos o comando (U1.+) para realizar uma conexão a partir da entrada não inversora do amplificador operacional. Isso é possível com o uso das **âncoras/anchors** associadas a cada componente. Há dois modos de utilizar esse recurso:
@@ -151,4 +158,42 @@ Devemos também deslocar o ramo de *feedback* para a parte inferior
 
 	\draw (U1.-) to[short] ++(0,1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
 	\draw (U1.-) to[short] ++(0,-1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+
+O resultado que temos é: 
+
+	\begin{figure}[]
+	\begin{center}
+	\resizebox{\textwidth}{!}{
+		\begin{circuitikz}
+	            \node [op amp, noinv input up](U1){\texttt{ampop}};          
+	            \draw (U1.+)  to[short] ++(-2,0)coordinate(tmp) to[sV] ++(0,-3)  node[ground] (GND){};            
+	            \draw (U1.-) --++(0,-1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+	            \draw (U1.out) to[short] ++(2,0) coordinate(saída);
+		\end{circuitikz}
+	}
+	\end{center}
+	\end{figure}
+
+![buffer](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A9.png)
 	
+Ainda podemos identificar os nós e explorar  outras configurações dos componentes:
+
+	\begin{figure}[]
+	\begin{center}
+	\resizebox{\textwidth}{!}{
+		\begin{circuitikz}
+	            \node [op amp, noinv input up](U1){\texttt{ampop}};          
+	            \draw (U1.+)  to[short,-*] ++(-2,0)coordinate(tmp) to[sV, l=$V_{in}$, fill=yellow] ++(0,-3)  node[ground] (GND){};          
+	            \draw (U1.-) --++(0,-1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+	            \draw (U1.out) to[short,-*, i=$I_{out}$] ++(2,0) coordinate(saída);
+
+	            \draw (saída) to[short,-*, color=blue] + (0,0) node[shift={(0,0.5)}, color=blue] {saída};
+	            \draw (tmp) to[short,-*, color=red] + (0,0) node[shift={(0,-0.5)}, color=red] {ultimo tmp};
+	            \draw (U1.+) to[short,-*, color=green] + (0,0) node[shift={(0,+1)}, color=orange] {entrada não inversora};
+	            
+		\end{circuitikz}
+	}
+	\end{center}
+	\end{figure}
+
+![buffer_final](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A10.png)
