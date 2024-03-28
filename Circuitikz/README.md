@@ -76,6 +76,7 @@ Há várias formas de desenhar os fios de conexão. Nós já vimos uma quando cr
 Perceba que usamos coordenadas relativas e por último uma coordenada absoluta em ambos os exemplos.
 
 Também usamos um comando levemente diferente em cada exemplo. Primeiro utilizamos o comando de fio ortogonal **-|** e depois **|-**. A diferença é que no primeiro exemplo primeiro é construído o segmento de reta horizontal e depois o vertical. No segundo exemplo a construção é primeiramente vertical e depois horizontal.
+
 ![construindo fios](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A8.png)
 
  ##### Utilizando as âncoras dos componentes para realizar as conexões
