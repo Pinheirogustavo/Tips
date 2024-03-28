@@ -42,7 +42,9 @@ Uma estratégia interessante para criar esquemas de circuitos eletrônicos é in
 > escrita: é o nome que aparecerá no desenho junto ao componente.
 
      \node [op amp](U1){\texttt{ampop}};
+     
 ![ampop](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A1.png)
+
 Na linha seguinte, comece a ligar os componentes que estão conectados a este primeiro nó. O comando para iniciar o desenho é \draw
 
      \draw (U1.+) to [sV] ++(-6,0) coordinate(tmp)  node[ground] (GND){};
@@ -51,6 +53,7 @@ Na linha seguinte, comece a ligar os componentes que estão conectados a este pr
 
 ![ampop_fonte](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2.png)
   ![ampop_fonte_pontos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2_PONTOS.png)
+
  ###### Coordenadas absolutas e relativas
  
  Podemos adicionar elementos de desenho em um ponto qualquer do ambiente iniciado com \begin{circuitikz} utilizando um par ordenado. 
@@ -85,7 +88,9 @@ Também usamos um comando levemente diferente em cada exemplo. Primeiro utilizam
 	
 >-*: acrescenta um circulo (nó) ao final do fio.
 >i=$I_0 $ : acrescenta uma seta e a legenda $I_O$ para a corrente.
+
 ![short](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A11.png)
+ 
  ##### Utilizando as âncoras dos componentes para realizar as conexões
  
 No passo anterior utilizamos o comando (U1.+) para realizar uma conexão a partir da entrada não inversora do amplificador operacional. Isso é possível com o uso das **âncoras/anchors** associadas a cada componente. Há dois modos de utilizar esse recurso:
@@ -93,6 +98,7 @@ No passo anterior utilizamos o comando (U1.+) para realizar uma conexão a parti
 - âncoras associadas com nós e pontos do componente.
 A vantagem desse método é que a ligação entre componentes é realizada em pontos exatos, evitando erros de conexão nas figuras geradas. 
 > Amplificadores Operacionais: possuem âncoras identicas aos pinos de seus CIs. Nome.âncora: (U1.out)
+
 ![âncoras do amplificador operacional](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/ancoras_ampop.png)
 
 Podemos também usar as âncoras a partir de cordenadas.
@@ -101,6 +107,7 @@ Podemos também usar as âncoras a partir de cordenadas.
 - âncoras associadas com o ângulo envolta do componente.
 > Todos os componentes gráficos possuem âncoras ao seu redor que podem ser selecionadas com o ângulo referente.
 Exemplo: ponto ao norte do componente X: X.90
+
 ![âncoras de borda](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/ancoras_graus.png)
 
  ##### Utilizando coordenadas temporárias para realizar as conexões
@@ -197,3 +204,28 @@ Ainda podemos identificar os nós e explorar  outras configurações dos compone
 	\end{figure}
 
 ![buffer_final](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A10.png)
+
+##### Componentes coloridos
+
+Acabamos de ver como preencher com cores fontes senoidais. Agora vamos ver como colorir componentes, ferramenta útil para destacar algum elemento num esquema eletrônico.
+
+
+	\begin{figure}[]
+	\begin{center}
+	\resizebox{\textwidth}{!}{
+	    \begin{circuitikz}
+	        \draw(0,0) to [C,l_=$C$,color=blue](0,2);	
+			\draw[blue] (2,0) to [C,l_=$C$,color=blue] (2,2);
+	        \draw(4,0) to[blue][C,l_=$C$](4,2);
+	    \end{circuitikz}    
+	}
+	\end{center}
+	\end{figure}
+
+![componentes_coloridos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A11.png)
+
+## Alguns artigos valiosos
+
+#### Usando cores em seus desenhos
+
+[Using colors in LaTeX](https://pt.overleaf.com/learn/latex/Using_colors_in_LaTeX)
