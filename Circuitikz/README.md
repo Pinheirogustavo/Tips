@@ -222,7 +222,7 @@ Acabamos de ver como preencher com cores fontes senoidais. Agora vamos ver como 
 	\end{center}
 	\end{figure}
 
-![componentes_coloridos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A11.png)
+![componentes_coloridos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A12.png)
 
 ## Alguns artigos valiosos
 
