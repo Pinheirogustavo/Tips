@@ -51,7 +51,33 @@ Na linha seguinte, comece a ligar os componentes que estão conectados a este pr
 
 ![ampop_fonte](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2.png)
   ![ampop_fonte_pontos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A2_PONTOS.png)
+ ###### Coordenadas absolutas e relativas
  
+ Podemos adicionar elementos de desenho em um ponto qualquer do ambiente iniciado com \begin{circuitikz} utilizando um par ordenado. 
+ Quando utilizamos as coordenadas *absolutas*, basta usar o comando **(x,y)**. Já as coordenadas *relativas* são adicionadas após um componente ou nó com o comando **+(x,y)** ou **++(x,y)** .
+ 
+	\begin{circuitikz}            
+	    \draw (5,0)to[R=$R_1$] (7,0);
+        \draw (5,-1)to[R=$R_2$] (7,-1);
+        \draw (0,0)  node[ocirc]{referencial} +(-2,0) node[ocirc]{relativo};
+        \draw (-2,-1)  node[ocirc]{absoluto};
+	\end{circuitikz}
+
+ 
+![absoluto e relativo](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A7.png)
+
+###### Criando os fios de conexão
+Há várias formas de desenhar os fios de conexão. Nós já vimos uma quando criamos a fonte senoidal. Outras formas comuns, principalmente quando queremos fazer linhas verticais, longas, ortogonais ou conectar componentes que não estão na mesma linha são os comandos **- -** e **-|**.
+
+ O primeiro comando criará uma linha reta entre a coordenada anterior e a próxima do script. O segundo realiza o mesmo desenho, mas é utilizada para criar fios ortogonais (quando a coordenada anterior e a posterior estão em planos verticais e horizontais diferentes, ou não guardam nenhuma ordenada em comum...).
+
+	\draw(0,0) --++(2,0) --++(0,2) --++(2,0)-|(6,4);
+	\draw(0,0) --++(2,0) --++(0,2) --++(2,0)|-(6,4);
+Perceba que usamos coordenadas relativas e por último uma coordenada absoluta em ambos os exemplos.
+
+Também usamos um comando levemente diferente em cada exemplo. Primeiro utilizamos o comando de fio ortogonal **-|** e depois **|-**. A diferença é que no primeiro exemplo primeiro é construído o segmento de reta horizontal e depois o vertical. No segundo exemplo a construção é primeiramente vertical e depois horizontal.
+![construindo fios](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A8.png)
+
  ##### Utilizando as âncoras dos componentes para realizar as conexões
  
 No passo anterior utilizamos o comando (U1.+) para realizar uma conexão a partir da entrada não inversora do amplificador operacional. Isso é possível com o uso das **âncoras/anchors** associadas a cada componente. Há dois modos de utilizar esse recurso:
@@ -110,3 +136,18 @@ Atualmente temos o seguinte circuito *buffer* desenhado, a partir do seguinte c�
 ![enter image description here](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A6.png)
 
 Você pode perceber alguns erros nessa apresentação, vamos refiná-la.
+
+Podemos começar invertendo o desenho do ampop, para que a entrada inversora esteja na parte inferior. Um modo possível de realizar isso é com uso da opção de configuração  **noinv input up**.
+
+	\node [op amp](U1){\texttt{ampop}};
+	\node [op amp, noinv input up](U1){\texttt{ampop}};
+
+A fonte de tensão senoidal também precisa ser deslocada para a posição vertical. Para isto, vamos usar as coordenadas temporárias.
+
+	\draw (U1.+) to [sV] ++(-6,0) coordinate(tmp)  node[ground] (GND){};
+	\draw (U1.+)  to[short] ++(-2,0)coordinate(tmp) to[sV] ++(0,-3)  node[ground] (GND){};
+Devemos também deslocar o ramo de *feedback* para a parte inferior
+
+	\draw (U1.-) to[short] ++(0,1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+	\draw (U1.-) to[short] ++(0,-1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);
+	
