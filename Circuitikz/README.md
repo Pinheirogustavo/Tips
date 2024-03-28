@@ -89,7 +89,7 @@ Também usamos um comando levemente diferente em cada exemplo. Primeiro utilizam
 >-*: acrescenta um circulo (nó) ao final do fio.
 >i=$I_0 $ : acrescenta uma seta e a legenda $I_O$ para a corrente.
 
-![short](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A11.png)
+![short](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A12.png)
  
  ##### Utilizando as âncoras dos componentes para realizar as conexões
  
@@ -130,6 +130,16 @@ A figura a seguir deixa explícito o uso desse recurso:
 Criamos uma coordenada fixa, chamada saída,  distante 2 cm da saída do amplificador. Esse nó será util em novas conexões e para ser destacado como um nó importante na análise do sinal. Novos usos desse recurso serão melhores explicados no decorrer do texto.
 
 ![enter image description here](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A5.png)
+
+#### Como alterar o posicionamento da legenda do *node* ocirc
+
+Já vimos que podemos associar legendas aos nós e alterar o posicionamento das mesmas com o comando:
+
+	node[shift={(0,0.5)}] 
+		
+Já para o *node* ocirc, esse reposicionamento pode ser feito da seguinte maneira:
+
+	 node [ocirc,label=left:XX](XX){};
 
  ##### Refinando o nosso primeiro circuito. Uso de opções de configuração de cada componente e destacando nós. 
  
@@ -222,10 +232,38 @@ Acabamos de ver como preencher com cores fontes senoidais. Agora vamos ver como 
 	\end{center}
 	\end{figure}
 
-![componentes_coloridos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A12.png)
+![componentes_coloridos](https://github.com/Pinheirogustavo/Tips/blob/master/Circuitikz/imagens/A11.png)
 
 ## Alguns artigos valiosos
 
 #### Usando cores em seus desenhos
 
 [Using colors in LaTeX](https://pt.overleaf.com/learn/latex/Using_colors_in_LaTeX)
+
+#### Lista de componentes para o overleaf
+
+[ List of some node types](https://www.overleaf.com/learn/latex/CircuiTikz_package)
+
+#### Como fazer anotações avançadas no circuito (mas não muito técnicas)
+
+[How to create complex op-amp diagrams with Circuitikz](https://tex.stackexchange.com/questions/441759/how-to-create-complex-op-amp-diagrams-with-circuitikz)
+
+#### Como utilizar setas para conectar elementos 
+
+[Tikz Arrows and Blocks](https://tex.stackexchange.com/questions/522212/tikz-arrows-and-blocks)
+
+
+## Criar pontilhados em volta de componentes
+
+xxxxx
+
+## Incluir figuras 
+
+xxxxxxx
+
+## Contruindo fluxogramas
+
+##### xxxxxxxxx
+xxxxxx
+#### xxxxx
+xxxx
