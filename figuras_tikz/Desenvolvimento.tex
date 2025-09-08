@@ -1,0 +1,602 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% Arquitetura geral  %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+
+  %%%%%%%%% blocos
+    \node[draw, fill=gray!50, minimum width=22cm, minimum height=2cm,font=\HUGE, rotate = 90] (bloco_1) {Supervisor/Controlador};
+    \node[normalrectangle] (bloco_2) [right=of bloco_1, xshift=4cm] {Gerador de sinais};
+    \node[normalrectangle] (bloco_3) [right=of bloco_2] {Circuito de ganho\\controlável};
+    \node[normalrectangle] (bloco_4) [right=of bloco_3] {Fonte de corrente};
+    \node[normalrectangle] (bloco_5) [right=of bloco_4] {Demultiplexador};
+
+    \node[roundnode] (eletrodo_1) [right=of bloco_5, xshift=2cm, yshift=-6cm] {$E_1$};
+    \node[roundnode] (eletrodo_2) [below=of eletrodo_1, yshift=-3cm] {$E_2$};
+    \node[roundnode] (eletrodo_n) [below=of eletrodo_2, yshift=-6cm] {$E_n$};
+
+    \node[normalrectangle] (bloco_6) [left=of eletrodo_1, xshift=-7cm] {Condicionamento};
+    \node[normalrectangle] (bloco_7) [left=of bloco_6, xshift=-4cm] {Circuito de ganho\\controlável};
+    \node[normalrectangle] (bloco_8) [left=of bloco_7, xshift=-4cm] {Aquisição};
+    
+    \node[normalrectangle] (bloco_9) [left=of eletrodo_2, xshift=-7cm] {Condicionamento};
+    \node[normalrectangle] (bloco_10) [left=of bloco_9, xshift=-4cm] {Circuito de ganho\\controlável};
+    \node[normalrectangle] (bloco_11) [left=of bloco_10, xshift=-4cm] {Aquisição};
+
+    \node[normalrectangle] (bloco_12) [left=of eletrodo_n, xshift=-7cm] {Condicionamento};
+    \node[normalrectangle] (bloco_13) [left=of bloco_12, xshift=-4cm] {Circuito de ganho\\controlável};
+    \node[normalrectangle] (bloco_14) [left=of bloco_13, xshift=-4cm] {Aquisição};
+
+    \node[normalrectangle] (PC) [left=of bloco_1, xshift=3.5cm, yshift=-4cm] {PC};
+
+    \node at ($(eletrodo_n.north)!0.5!(eletrodo_2.south)$) {\HUGE$\vdots$};
+    \node at ($(bloco_12.north)!0.5!(bloco_9.south)$) {\HUGE$\vdots$};
+    \node at ($(bloco_13.north)!0.5!(bloco_10.south)$) {\HUGE$\vdots$};
+    \node at ($(bloco_14.north)!0.5!(bloco_11.south)$) {\HUGE$\vdots$};
+
+    %%%%%%%%% Lines
+    \draw[-] (bloco_1.354) -- ++(1,0) coordinate(aux);
+    \draw[seta] (aux)  |- (bloco_2.west); 
+    \draw[seta] (bloco_2.east) --  (bloco_3.west);
+    \draw[seta] (bloco_3.east) --  (bloco_4.west);
+    \draw[seta] (bloco_4.east) --  (bloco_5.west);
+    
+    \draw[seta](bloco_5.310) --++(0,-7) |-(eletrodo_n.west);
+    \draw[seta](bloco_5.310) --++(0,-1) |-(eletrodo_1.west);
+    \draw[seta](bloco_5.310) --++(0,-1) |-(eletrodo_2.west);
+
+    \draw[seta] (eletrodo_1.west) --  (bloco_6.east);
+    \draw[seta] (eletrodo_2.west) --  (bloco_9.east);
+    \draw[seta] (eletrodo_n.west) --  (bloco_12.east);
+    
+    \draw[seta] (bloco_6.west) --  (bloco_7.east);
+    \draw[seta] (bloco_7.west) --  (bloco_8.east);
+    \draw[seta] (bloco_8.west) --  ++(-2.7,0) coordinate(entrada_uc_canal_1);
+
+    \draw[seta] (bloco_9.west) --  (bloco_10.east);
+    \draw[seta] (bloco_10.west) --  (bloco_11.east);
+    \draw[seta] (bloco_11.west) --  ++(-2.7,0) coordinate(entrada_uc_canal_2);
+
+    \draw[seta] (bloco_12.west) --  (bloco_13.east);
+    \draw[seta] (bloco_13.west) --  (bloco_14.east);
+    \draw[-] (bloco_14.west)-- ++(-1,0) coordinate(aux);
+    \draw[seta] (aux) |-  (bloco_1.186) coordinate(entrada_uc_canal_n);;
+
+    \draw[seta_pontilhada] (bloco_1.south east) |- ++ (2,4) -| (bloco_3.north); 
+    \draw[seta_pontilhada] (bloco_1.north east) |- ++ (2,5) -| (bloco_5.north);
+    
+   % \draw[seta_dupla_pontilhada] (bloco_1.352) -|  (bloco_7.north); 
+   % \draw[seta_dupla_pontilhada] (bloco_1.314) -|  (bloco_10.north); 
+   % \draw[seta_dupla_pontilhada] (bloco_1.187) -|  (bloco_13.north); 
+   
+   \draw[seta_pontilhada] (bloco_1.352) -|  (bloco_7.north); 
+   \draw[seta_pontilhada] (bloco_1.314) -|  (bloco_10.north); 
+   \draw[seta_pontilhada] (bloco_1.187) -|  (bloco_13.north); 
+
+    \draw[-] (PC.north) -- (bloco_1.west);
+
+    \coordinate (extra) at ($(bloco_5.east)+(5,0)$); %Coordenada 5cm à direita do bloco_5
+    \node[draw=red, dotted, ultra thick, fit=(bloco_2)(bloco_3)(bloco_4)(bloco_5)(extra), inner sep=8mm] (excitacao){};
+    \node[anchor=south east] at (excitacao.south east) {Sistema de excitação};  
+
+    \node[draw=blue, dotted, ultra thick, fit=(bloco_6)(bloco_7)(bloco_8)(eletrodo_1)(entrada_uc_canal_1), inner sep=8mm] (canal_1){};
+    \node[anchor=south east] at (canal_1.south east) {Canal 1};
+
+    \node[draw=blue, dotted, ultra thick, fit=(bloco_9)(bloco_10)(bloco_11)(eletrodo_2)(entrada_uc_canal_2), inner sep=8mm] (canal_2){};
+    \node[anchor=south east] at (canal_2.south east) {Canal 2};
+
+    \node[draw=blue, dotted, ultra thick, fit=(bloco_12)(bloco_13)(bloco_14)(eletrodo_n)(entrada_uc_canal_n), inner sep=8mm] (canal_n){};
+    \node[anchor=south east] at (canal_n.south east) {Canal n};    
+    
+
+\end{tikzpicture}
+}
+\label{fig:diagrama_blocos_arquitetura}
+\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% circuito ganho - digpot  %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \begin{center}
+        \resizebox{\textwidth}{!}{
+            \begin{circuitikz} 
+                \node [op amp, noinv input up](U1){\text{buffer}}; % cria o primeiro ampop, buffer.
+                \draw (U1.+) -- ++(-1.5,0)coordinate(vin) to[sV, l=$V_{in}$, fill=yellow] ++(0,-3)  node[ground](GND){};  %ramo de entrada do buffer
+                \draw (U1.-) -- ++(0,-1)coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);  %ramo de feedback do buffer
+                \draw (U1.out) -- ++(1,0)coordinate(R_s_in); %cria o nó de entrada do resistor variavel
+                \draw (R_s_in) -- ++(0,0)coordinate(tmp) to[vR=$Rs$] ++(2,0)coordinate(R_s_out); %cria o nó de saida do resistor variavel
+                 
+                \draw (R_s_out)  ++(2,-0.5) node [op amp](U2){\text{Gain}};%%cria o segundo ampop, gain, deslocado para alinhar 
+                \draw (R_s_out) --(U2.-); %liga o resistor variavel ao segundo ampop
+                \draw (U2.+) -|++(-1,-1) node[ground](GND){}; %aterra a entrada n-inversora do segundo ampop
+                \draw (U2.-) --++(0,+1.5) coordinate(tmp) to[R, l_=$R_f$] (tmp -| U2.out) -- (U2.out); %ramo de realimentação segundo ampop
+                \draw (U2.out) --++(1,0) coordinate(no3) --++(0,0) to[C=$C_1$] ++(2,0) coordinate(no4) to[R, l_=$R_1$] ++(0,-2) node[ground](GND){}; %cria filtro 
+                \draw (no4)  ++(3,-0.5) node [op amp, noinv input up](U3){\text{Buffer}};%%cria o terceiro ampop, buffer,  deslocado para alinhar 
+                \draw (no4) --(U3.+);  %liga o filtro ao terceiro ampop
+                \draw (U3.-) to[short] ++(0,-1) coordinate(tmp) to (tmp -| U3.out) to[short] (U3.out);  %ramo de feedback do buffer
+                \draw( U3.out) --++(1,0) coordinate(out);  %cria nó de saida              
+       
+                    %desenha os nós
+                %\draw (vin)     to[short,-*, color=blue]    + (0,0) node[shift={(0,0.5)}, color=blue]       {$V_{in}$};
+                \draw (R_s_in)  to[short,-*, color=blue]     + (0,0) node[shift={(-0.3,0.3)}, color=blue]     {$\text{n\'o}_1$};
+                %\draw (R_s_out) to[short,-*, color=purple]  + (0,0) node[shift={(+0.5,0.5)}, color=purple]  {$R_{Vout}$};
+                \draw (U2.-)    to[short,-*, color=blue]   + (0,0) node[shift={(-0.5,-0.3)}, color=blue]  {$\text{n\'o}_2$};
+                \draw (no3)     to[short,-*, color=blue]    + (0,0) node[shift={(0,0.5)}, color=blue]       {$\text{n\'o}_3$};
+                \draw (no4)      to[short,-*, color=blue]    + (0,0) node[shift={(0.5,0.5)}, color=blue]     {$\text{n\'o}_4$};
+                \draw (out)     to[short,-*, color=blue]    + (0,0) node[shift={(0,0.5)}, color=blue]       {$out$};
+            \end{circuitikz}
+        }
+    \end{center}
+\label{fig:circuito_ganho_digipot}
+\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Diagrama blocos - Fonte de corrente compensada %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+    %Nodes
+    \node[normalrectangle]      (bloco_1)       [] {Gerador de sinais};
+    \node[roundnode]            (soma)          [right=of bloco_1] {$\times$};
+    \node[normalrectangle]      (bloco_2)       [right=of soma] {Fonte CCT};
+    \node[normalrectangle]      (bloco_3)       [right=of bloco_2] {Monitor de corrente};
+    \node[normalrectangle]      (bloco_4)       [right=of bloco_3] {Carga};
+
+    \node[squarednode]        (feedback)          [below=of bloco_2] {Ganho controlável};
+
+    %Lines
+    \draw[->] (bloco_1.east) -- node[name=z,anchor=south]{$V_{in}(t)$} (soma.west);
+    \draw[->] (soma.east) -- node[name=z,anchor=south]{$V_{cct}(t)$}    (bloco_2.west);
+    %\draw[->] (soma.east) -- (bloco_1.west);    
+    \draw[->] (bloco_2.east) -- node[name=z,anchor=south]{$i_{carga}(t)$}   (bloco_3.west);
+    \draw[->] (bloco_3.east) -- node[name=z,anchor=south]{$V_{out}(t)$}    (bloco_4.west);
+
+   \draw [-] (z) |- (feedback);
+   \draw [->] (feedback) -| node [near end] {$V_{g}$} (soma);
+   
+\end{tikzpicture}
+}
+\label{fig:compensacao_fonte_corrente_diagrama_blocos}
+\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% circuito ganho - chaves  %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\begin{figure}[H]
+    \begin{center}
+        \resizebox{\textwidth}{!}{
+            \begin{circuitikz} 
+                \node [op amp, noinv input up](U1){\text{buffer}}; % cria o ampop buffer
+                \draw (U1.+) -- ++(-1.5,0) coordinate(vin) to[sV, l=$V_{in}$, fill=yellow] ++(0,-3)  node[ground] (GND){};  %ramo de entrada do buffer
+                \draw (U1.-) -- ++(0,-1) coordinate(tmp) to (tmp -| U1.out) to[short] (U1.out);  %ramo de feedback do buffer
+                \draw (U1.out) -- ++(1,0) coordinate(R_v_in); %cria o nó de entrada do conjunto de resistores
+                \draw (R_v_in) -- ++(0,0)coordinate(tmp) to[R=$R_{s2}$] ++(3,0) to [cute open switch, l=$K_2$] ++(2,0)coordinate(R_v_out); %cria o nó de saida do conjunto de resistores
+                \draw (R_v_in) |- ++(0,2)coordinate(tmp) to[R=$R_{s0}$] ++(5,0)-- (R_v_out); %ramo Rs0
+                \draw (R_v_in) -* ++(0,1)coordinate(tmp) to[R=$R_{s1}$] ++(3,0) to [cute open switch, l=$K_1$] ++(2,0);  %ramo Rs1
+                \draw (R_v_in)  -* ++(0,-1)coordinate(tmp) to[R=$R_{s3}$] ++(3,0) to [cute open switch, l=$K_3$] ++(2,0) ; %ramo Rs3
+                \draw (R_v_in) |- ++(0,-2)coordinate(tmp) to[R=$R_{s4}$] ++(3,0) to [cute open switch, l=$K_4$] ++(2,0)-- (R_v_out);  %ramo Rs4
+                 
+                \draw (R_v_out)  ++(3,-0.5) node [op amp](U2){\text{Gain}};%%cria o segundo ampop, gain, deslocado para alinhar 
+                \draw (R_v_out) --(U2.-);
+                \draw (U2.+) -|++(-1,-1) node[ground](GND){};
+                \draw (U2.-) --++(0,+1.5) coordinate(tmp) to[R, l_=$R_f$] (tmp -| U2.out) -- (U2.out);
+                \draw (U2.out) --++(1,0) coordinate(no3) --++(0,0) to[C=$C_1$] ++(2,0) coordinate(no4) to[R, l_=$R_1$] ++(0,-2) node[ground](GND){};
+                \draw (no4)  ++(3,-0.5) node [op amp, noinv input up](U3){\text{Buffer}};%%cria o segundo buffer, gain, deslocado para alinhar 
+                \draw (no4) --(U3.+);
+                \draw (U3.-) to[short] ++(0,-1) coordinate(tmp) to (tmp -| U3.out) to[short] (U3.out);  %ramo de feedback do buffer
+                \draw( U3.out) --++(1,0) coordinate(out);                
+       
+                        %desenha os nós
+                \draw (vin)     to[short,-*, color=blue]    + (0,0) node[shift={(0,0.5)}, color=blue]       {$V_{in}$};
+                \draw (R_v_in)  to[short,-*, color=blue]     + (0,0) node[shift={(-0.5,0.5)}, color=blue]   {$\text{n\'o}_1$};
+                %\draw (R_v_out) to[short,-*, color=purple]  + (0,0) node[shift={(+0.5,0.5)}, color=purpldigpote]  {$R_{Vout}$};
+                \draw (U2.-)    to[short,-*, color=blue]   + (0,0) node[shift={(-0.5,-0.5)}, color=blue]  {$\text{n\'o}_2$};
+                \draw (no3)     to[short,-*, color=blue]    + (0,0) node[shift={(0,0.5)}, color=blue]       {$\text{n\'o}_3$};
+                \draw (no4)      to[short,-*, color=blue]    + (0,0) node[shift={(0.5,0.5)}, color=blue]     {$\text{n\'o}_4$};
+                \draw (out)     to[short,-*, color=blue]    + (0,0) node[shift={(0,0.5)}, color=blue]       {$out$};
+            \end{circuitikz}
+        }
+    \end{center}
+\label{fig:circuito_ganho_chave}
+\end{figure}
+
+\newpage
+
+%%%%%%%%%%%%%% Diagrama blocos Gerador AD9850 %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+
+    %%%%%%%%% Blocos
+    \node[normalrectangle]      (bloco_1)       [] {módulo DDS \\ AD9850};
+    \node[normalrectangle] (bloco_2) [right=of bloco_1, xshift=4cm, yshift=3cm] {Filtro \\ Passa-alta 1};
+    \node[normalrectangle] (bloco_3) [right=of bloco_1, xshift=4cm, yshift=-3cm] {Filtro \\ Passa-alta 2};
+    \node[normalrectangle] (bloco_uC) [below = of bloco_1, yshift=-3cm] {uC};
+
+    %%linha superior 
+     \node[normalrectangle] (bloco_4) [right=of bloco_2] {Buffer 1};
+     \node[normalrectangle] (bloco_6) [right=of bloco_4, xshift=3cm] {Circuito de ganho\\controlável 1};
+     \node[normalrectangle] (bloco_8) [right=of bloco_6, xshift=3cm] {Buffer 1};
+
+    %%linha inferior
+     \node[normalrectangle] (bloco_5) [right=of bloco_3] {Buffer 2};
+     \node[normalrectangle] (bloco_7) [right=of bloco_5, xshift=3cm] {Circuito de ganho\\controlável 2};
+     \node[normalrectangle] (bloco_9) [right=of bloco_7, xshift=3cm] {Buffer 2};
+
+
+      %%%%%%%%% chave1
+    %\node[spdt, rotate = 180, right = of bloco_8, xshift=-6cm] (S1) {};
+
+    %%%%%%%%% chave2
+    %\node[spdt, rotate = 180, right = of bloco_9, xshift=-6cm] (S2) {};
+    
+    %%%%%%%%% Lines
+    \draw[seta] (bloco_1.10) -- node[labelup]{$V_{DDS1}(f)$} +(4,0) |- (bloco_2.west);
+    \draw[seta] (bloco_1.350) -- node[labeldown]{$V_{DDS2}(f)$} +(4,0) |- (bloco_3.west);
+    
+    \draw[seta] (bloco_2.east) -- node[labelup]{} (bloco_4.west);
+    \draw[seta] (bloco_4.east) -- node[labelup]{$Sin_{1}(f)$} (bloco_6.west);
+    \draw[seta] (bloco_6.east) -- node[labelup]{$Sin_{1ganho}(f)$} (bloco_8.west);
+
+    \draw[seta] (bloco_3.east) -- node[labeldown]{} (bloco_5.west);
+    \draw[seta] (bloco_5.east) -- node[labeldown]{$Sin_{2}(f)$} (bloco_7.west);
+    \draw[seta] (bloco_7.east) -- node[labeldown]{$Sin_{2ganho}(f)$} (bloco_9.west);
+
+    \draw[sinal] (bloco_8.east) -- ++(2,0) node[labelright]{$Sin_A$};
+    \draw[sinal] (bloco_9.east) -- ++(2,0) node[labelright]{$Sin_B$};
+
+    \draw[seta] (bloco_uC.north) -- (bloco_1.south);
+
+    \path (bloco_uC.north) -- ++(0,1.5) coordinate(aux);
+    \draw[comunicacao] (aux) --  +(-3,0) node[labelleft]{$serial$};
+
+    \path (bloco_4.east) -- ++(4,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,3) node[labelleft]{$Barramento$};
+    
+    \path (bloco_5.east) -- ++(4,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,-3) node[labelleft]{$Barramento$};
+
+    \path (bloco_8.east) -- ++(1,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,3) node[labelleft]{$Barramento$};
+
+    \path (bloco_9.east) -- ++(1,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,-3) node[labelleft]{$Barramento$};
+
+    \draw[comunicacao] (bloco_6.north) -- ++(0,3) node[labelright]{$Controle\;digital$};
+    \draw[comunicacao] (bloco_7.south) -- ++(0,-3) node[labelright]{$Controle\;digital$};
+    
+\end{tikzpicture}
+}
+\label{fig: diagrama_blocos_AD9850}
+\end{figure}
+
+\newpage
+
+%%%%%%%%%%%%%% Diagrama blocos Gerador AD9833 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+
+    %%%%%%%%% Blocos
+    \node[normalrectangle]      (bloco_1)       [] {módulo DDS \\ AD9833};
+    \node[normalrectangle] (bloco_2) [right=of bloco_1, xshift=4cm] {Filtro \\ Passa-alta};
+    \node[normalrectangle] (bloco_uC) [below = of bloco_1, yshift=-3cm] {uC};
+
+    %%linha superior 
+     \node[normalrectangle] (bloco_4) [right=of bloco_2] {Buffer };
+     \node[normalrectangle] (bloco_6) [right=of bloco_4, xshift=3cm] {Circuito de ganho\\controlável};
+     \node[normalrectangle] (bloco_8) [right=of bloco_6, xshift=3cm] {Buffer};
+
+    
+    %%%%%%%%% Lines
+    \draw[seta] (bloco_1.east) -- node[labelup]{$V_{DDS}(f)$} (bloco_2.west);
+    
+    \draw[seta] (bloco_2.east) -- node[labelup]{} (bloco_4.west);
+    \draw[seta] (bloco_4.east) -- node[labelup]{$Sin_{1}(f)$} (bloco_6.west);
+    \draw[seta] (bloco_6.east) -- node[labelup]{$Sin_{1ganho}(f)$} (bloco_8.west);
+
+    \draw[sinal] (bloco_8.east) -- node[labelright]{$Sin_A$} ++(2,0);
+
+    \draw[seta] (bloco_uC.north) -- (bloco_1.south);
+
+    \path (bloco_uC.north) -- ++(0,1.5) coordinate(aux);
+    \draw[comunicacao] (aux) --  +(-3,0) node[labelleft]{$I_2C$};
+
+    \path (bloco_4.east) -- ++(4,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,3) node[labelleft]{$Barramento$};
+
+    \path (bloco_8.east) -- ++(1,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,3) node[labelleft]{$Barramento$};
+
+    \draw[comunicacao] (bloco_6.north) -- ++(0,3) node[labelright]{$Controle\;digital$};
+
+
+\end{tikzpicture}
+}
+\label{fig: diagrama_blocos_AD9833}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+
+  %%%%%%%%% blocos
+    \node[spdt, rotate = 180] (S) {};
+    \node[normalrectangle] (bloco_1) [right=of S, xshift = 2cm] {Circuito \\ Howland};
+    \node[normalrectangle] (bloco_2) [right=of bloco_1] {Monitoriamento};
+    \node[normalrectangle] (bloco_3) [below=of bloco_2, xshift=8cm] {Condicionamento};
+    
+    %%%%%%%%% Lines
+    \draw[seta] (S.in) --  (bloco_1.west);
+    \draw[seta] (bloco_1.east) --  (bloco_2.west);
+    \draw[seta] (bloco_2.south) |-  (bloco_3.west);  
+
+    \draw[sinal] (S.out 2) -- ++(-2,0) node[labelleft]{$Sin_A$};
+    \draw[sinal] (S.out 1) -- ++(-2,0)  node[labelleft]{$Sin_1$};
+   
+    \draw[sinal] (bloco_2.east) -- node[labelright]{$I_1$} ++(4,0);
+    \draw[sinal] (bloco_3.east) -- node[labelright]{$Amp\;I_1$} ++(4,0);
+
+    \draw[-] (bloco_1.south) -- ++(0,-2) node[ground]{};
+
+    \path (bloco_2.east) -- ++(3,0) coordinate(aux);
+    \draw[barramento] (aux) --  +(0,3) node[labelleft]{$Barramento$};
+    \path (bloco_3.east) -- ++(3,0) coordinate(aux);
+    \draw[barramento] (aux) -- +(0,3) node[labelleft]{$Barramento$};
+    
+\end{tikzpicture}
+}
+\label{fig: diagrama_blocos_fonte_monopolar}
+\end{figure}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Condicionamento %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+
+  %%%%%%%%% blocos
+    \node[normalrectangle] (bloco_1) {Buffer};
+    \node[normalrectangle_dashed] (bloco_2) [right=of bloco_1] {Circuito de ganho\\controlável};
+    \node[normalrectangle] (bloco_3) [right=of bloco_2] {Limitação de tensão\\entrada do microcontrolador};
+    \node[normalrectangle] (bloco_4) [right=of bloco_3] {Remoção\\componente DC};
+    \node[normalrectangle] (bloco_5) [right=of bloco_4] {Filtro PA};
+
+ %%%% chave
+     \node[spdt, rotate = 180] (S) [right=of bloco_5, xshift=-2cm]{};
+
+    
+    %%%%%%%%% Lines
+    \draw[sinal] (bloco_1.west) -- ++(-4,0) node[labelleft]{$eletrodo$} ;
+    \draw[seta_pontilhada] (bloco_1.east) --  (bloco_2.west);
+    \draw[seta_pontilhada] (bloco_2.east) --  (bloco_3.west);
+    \draw[seta] (bloco_3.east) --  (bloco_4.west);
+    \draw[seta] (bloco_4.east) --  (bloco_5.west);
+
+    \draw[seta] (bloco_1.south) |- ++ (2,-2) -| (bloco_3.south); 
+
+    \draw[-] (bloco_5.350) -| (S.out 1);
+   
+    \draw[sinal] (S.in) -- node[labelright]{$ADC$} ++(1,0);
+    
+    \path (bloco_4.east) -- ++(1,0) coordinate(aux);
+    \draw[-] (aux) -- ++(0,2) --++(5.5,0) |- (S.out 2); 
+    
+    \draw[comunicacao] (bloco_2.north) -- ++(0,3) node[labelright]{$Controle\;digital$};
+    
+\end{tikzpicture}
+}
+\label{fig: diagrama_blocos_condicionamento}
+\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%% barramento tensoes analogicas %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=0cm,>=latex']
+
+  %%%%%%%%% blocos
+    \node[normalrectangle] (bloco_1) {VCC};
+    \node[normalrectangle] (bloco_2) [right=of bloco_1] {VEE};
+    \node[normalrectangle] (bloco_3) [right=of bloco_2] {AGND};
+    \node[normalrectangle] (bloco_4) [right=of bloco_3] {AGND};
+    \node[normalrectangle] (bloco_5) [right=of bloco_4] {+9V};
+    \node[normalrectangle] (bloco_6) [right=of bloco_5] {AGND};
+    \node[normalrectangle] (bloco_7) [right=of bloco_6] {AGND};
+    \node[normalrectangle] (bloco_8) [right=of bloco_7] {-9V};
+
+    \node[right=of bloco_8, blue] (texto) {\Large Barramento de alimentação - dispositivos analógicos};
+
+    
+    %%%%%%%%% Lines
+\draw[sinal] (bloco_1.north) -- ++(0,11) node[labelright]{tensão máxima disponível - metade da tensão fornecida pela fonte externa empregada};
+\draw[sinal] (bloco_2.north) -- ++(0,9) node[labelright]{tensão mínima disponível - metade da tensão fornecida pela fonte externa empregada} ;
+\draw[sinal] (bloco_3.north) -- ++(0,7) node[labelright]{Terra virtual} ;
+\draw[-, dashed] (bloco_4.south) -- ++(0,-1) -| (bloco_3.south) ;
+\draw[sinal] (bloco_5.north) -- ++(0,5) node[labelright]{Tensão de +9V para alimentação de dispositivos analógicos ativos} ;
+\draw[-, dashed] (bloco_6.south)-- ++(0,-1) -| (bloco_4.south) ;
+\draw[-, dashed] (bloco_7.south) -- ++(0,-1) -| (bloco_6.south) ;
+\draw[sinal] (bloco_8.north) -- ++(0,3) node[labelright]{Tensão de -9V para alimentação de dispositivos analógicos ativos} ;
+
+\end{tikzpicture}
+}
+\label{fig:Barramento - tensoes analogicas}
+\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%% barramento tensoes digitais %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=0cm,>=latex']
+
+  %%%%%%%%% blocos
+    \node[normalrectangle] (bloco_1) {+5V};
+    \node[normalrectangle] (bloco_2) [right=of bloco_1] {-5V};
+    \node[normalrectangle] (bloco_3) [right=of bloco_2] {GND};
+    \node[normalrectangle] (bloco_4) [right=of bloco_3] {GND};
+    \node[normalrectangle] (bloco_5) [right=of bloco_4] {+3.3V};
+    \node[normalrectangle] (bloco_6) [right=of bloco_5] {GND};
+    \node[normalrectangle] (bloco_7) [right=of bloco_6] {GND};
+
+
+    \node[right=of bloco_7, blue] (texto) {\Large Barramento de alimentação - dispositivos digitais};
+
+    
+    %%%%%%%%% Lines
+\draw[sinal] (bloco_1.north) -- ++(0,9) node[labelright]{Tensão de +5V para alimentação de dispositivos digitais e condicionamento de sinais};
+\draw[sinal] (bloco_2.north) -- ++(0,7) node[labelright]{Tensão de -5V para alimentação de dispositivos digitais e condicionamento de sinais};
+\draw[sinal] (bloco_3.north) -- ++(0,5) node[labelright]{Terra virtual};
+\draw[-, dashed] (bloco_4.south) -- ++(0,-1) -| (bloco_3.south) ;
+\draw[sinal] (bloco_5.north) -- ++(0,3) node[labelright]{Tensão de +3.3V para alimentação de dispositivos digitais e condicionamento de sinais};
+\draw[-, dashed] (bloco_6.south)-- ++(0,-1) -| (bloco_4.south) ;
+\draw[-, dashed] (bloco_7.south) -- ++(0,-1) -| (bloco_6.south) ;
+
+
+
+\end{tikzpicture}
+}
+\label{fig:Barramento - tensoes digitais}
+\end{figure}
+
+
+\newpage
+%%%%%%%%%%%%%%%% barramento sinais analogicos %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=0cm,>=latex']
+
+  %%%%%%%%% blocos
+\node[normalrectangle] (bloco_1)  {AGND};
+\node[normalrectangle] (bloco_2)  [right=of bloco_1] {I1};
+\node[normalrectangle] (bloco_3)  [right=of bloco_2] {AGND};
+\node[normalrectangle] (bloco_4)  [right=of bloco_3] {I2};
+\node[normalrectangle] (bloco_5)  [right=of bloco_4] {AGND};
+\node[normalrectangle] (bloco_6)  [right=of bloco_5] {AmpI1};
+\node[normalrectangle] (bloco_7)  [right=of bloco_6] {AGND};
+\node[normalrectangle] (bloco_8)  [right=of bloco_7] {AmpI2};
+\node[normalrectangle] (bloco_9)  [right=of bloco_8] {AGND};
+\node[normalrectangle] (bloco_10) [right=of bloco_9] {Sin1};
+\node[normalrectangle] (bloco_11) [right=of bloco_10] {AGND};
+\node[normalrectangle] (bloco_12) [right=of bloco_11] {Sin2};
+\node[normalrectangle] (bloco_13) [right=of bloco_12] {AGND};
+\node[normalrectangle] (bloco_14) [right=of bloco_13] {SinA};
+\node[normalrectangle] (bloco_15) [right=of bloco_14] {AGND};
+\node[normalrectangle] (bloco_16) [right=of bloco_15] {SinB};
+\node[normalrectangle] (bloco_17) [right=of bloco_16] {AGND};
+
+   
+\node[below=of bloco_14, yshift=-3cm, blue] (texto) {\Large Barramento de sinais analógicos};
+
+    
+    %%%%%%%%% Lines
+\draw[sinal] (bloco_16.north) -- ++(0,2) node[labelright]{Tensão Sin2 com controle de sua amplitude e fase};
+\draw[sinal] (bloco_14.north) -- ++(0,3) node[labelright]{Tensão Sin1 com controle de sua amplitude e fase};
+\draw[sinal] (bloco_12.north) -- ++(0,4) node[labelright]{Tensão gerada por algum dispositivo digital};
+\draw[sinal] (bloco_10.north) -- ++(0,5) node[labelright]{Tensão gerada por algum dispositivo digital};
+\draw[sinal] (bloco_8.north)  -- ++(0,6) node[labelright]{Tensão proveniente do circuito de monitoramento de I2};
+\draw[sinal] (bloco_6.north)  -- ++(0,7) node[labelright]{Tensão proveniente do circuito de monitoramento de I1};
+\draw[sinal] (bloco_4.north)  -- ++(0,8) node[labelright]{Corrente de excitação 2};
+\draw[sinal] (bloco_2.north)  -- ++(0,9) node[labelright]{Corrente de excitação 1};
+
+
+\draw[-, dashed] (bloco_3.south)  -- ++(0,-1) -| (bloco_1.south);
+\draw[-, dashed] (bloco_5.south)  -- ++(0,-1) -| (bloco_3.south);
+\draw[-, dashed] (bloco_7.south)  -- ++(0,-1) -| (bloco_5.south);
+\draw[-, dashed] (bloco_9.south)  -- ++(0,-1) -| (bloco_7.south);
+\draw[-, dashed] (bloco_11.south) -- ++(0,-1) -| (bloco_9.south);
+\draw[-, dashed] (bloco_13.south) -- ++(0,-1) -| (bloco_11.south);
+\draw[-, dashed] (bloco_15.south) -- ++(0,-1) -| (bloco_13.south);
+\draw[-, dashed] (bloco_17.south) -- ++(0,-1) -| (bloco_15.south);
+
+\end{tikzpicture}
+}
+\label{fig:Barramento - sinais analogicos}
+\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%% barramento sinais digitais %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering  
+    \resizebox{\columnwidth}{!}{
+\begin{tikzpicture}[auto, node distance=0cm,>=latex']
+
+  %%%%%%%%% blocos
+\node[normalrectangle] (bloco_1)  {GND};
+\node[normalrectangle] (bloco_2)  [right=of bloco_1] {CS1};
+\node[normalrectangle] (bloco_3)  [right=of bloco_2] {CS0};
+\node[normalrectangle] (bloco_4)  [right=of bloco_3] {SPI\_clk};
+\node[normalrectangle] (bloco_5)  [right=of bloco_4] {SPI\_CIPO};
+\node[normalrectangle] (bloco_6)  [right=of bloco_5] {SPI\_COPI};
+\node[normalrectangle] (bloco_7)  [right=of bloco_6] {GND};
+\node[normalrectangle] (bloco_8)  [right=of bloco_7] {SCL4};
+\node[normalrectangle] (bloco_9)  [right=of bloco_8] {SDA4};
+\node[normalrectangle] (bloco_10) [right=of bloco_9] {GND};
+\node[normalrectangle] (bloco_11) [right=of bloco_10] {SCL3};
+\node[normalrectangle] (bloco_12) [right=of bloco_11] {SDA3};
+\node[normalrectangle] (bloco_13) [right=of bloco_12] {GND};
+\node[normalrectangle] (bloco_14) [right=of bloco_13] {SCL2};
+\node[normalrectangle] (bloco_15) [right=of bloco_14] {SDA2};
+\node[normalrectangle] (bloco_16) [right=of bloco_15] {GND};
+\node[normalrectangle] (bloco_17) [right=of bloco_16] {SCL1};
+\node[normalrectangle] (bloco_18) [right=of bloco_17] {SDA1};
+\node[normalrectangle] (bloco_19) [right=of bloco_18] {GND};
+\node[normalrectangle] (bloco_20) [right=of bloco_19] {SINCD};
+   
+\node[below=of bloco_17, yshift=-3cm, blue] (texto) {\Large Barramento de sinais digitais};
+
+    
+    %%%%%%%%% Lines
+
+\draw[sinal] (bloco_20.north) -- ++(0,2) node[labelright]{sinal de sincronismo entre os canais de aquisição};
+\draw[sinal] (bloco_18.north) -- ++(0,3) node[labelright]{$I_2C$ - linha 1 de comunicação serial - dispositivos de 3.3V};
+\draw[sinal] (bloco_17.north) -- ++(0,4) node[labelright]{$I_2C$ - linha 1 de $clock$ serial - dispositivos de 3.3V};
+\draw[sinal] (bloco_15.north) -- ++(0,5) node[labelright]{$I_2C$ - linha 2 de comunicação serial - dispositivos de 5V};
+\draw[sinal] (bloco_14.north) -- ++(0,6) node[labelright]{$I_2C$ - linha 2 de $clock$ serial - dispositivos de 5V};
+\draw[sinal] (bloco_12.north) -- ++(0,7) node[labelright]{$I_2C$ - linha 3 de comunicação serial - dispositivos de 3.3V};
+\draw[sinal] (bloco_11.north) -- ++(0,8) node[labelright]{$I_2C$ - linha 3 de $clock$ serial - dispositivos de 3.3V};
+\draw[sinal] (bloco_9.north) -- ++(0,9) node[labelright]{$I_2C$ - linha 4 de comunicação serial - dispositivos de 5V};
+\draw[sinal] (bloco_8.north) -- ++(0,10) node[labelright]{$I_2C$ - linha 4 de $clock$ serial - dispositivos de 5V};
+\draw[sinal] (bloco_6.north) -- ++(0,11) node[labelright]{$SPI$ - \textit{Controller Out Peripheral In} - linha de comunicação serial para transmissão de controlador para periférico};
+\draw[sinal] (bloco_5.north) -- ++(0,12) node[labelright]{$SPI$ - \textit{Controller In Peripheral Out} - linha de comunicação serial para transmissão de periférico para controlador};
+\draw[sinal] (bloco_4.north) -- ++(0,13) node[labelright]{$SPI$ - linha de $clock$ serial - estabelece o sincronismo da comunicação};
+\draw[sinal] (bloco_3.north) -- ++(0,14) node[labelright]{$SPI$ - \textit{Chip Select} - seleção de periférico para comunicação};
+\draw[sinal] (bloco_2.north) -- ++(0,15) node[labelright]{$SPI$ - \textit{Chip Select} - seleção de periférico para comunicação};
+
+\draw[-, dashed] (bloco_7.south)  -- ++(0,-1) -| (bloco_1.south);
+\draw[-, dashed] (bloco_10.south)  -- ++(0,-1) -| (bloco_7.south);
+\draw[-, dashed] (bloco_13.south)  -- ++(0,-1) -| (bloco_10.south);
+\draw[-, dashed] (bloco_16.south)  -- ++(0,-1) -| (bloco_13.south);
+\draw[-, dashed] (bloco_19.south) -- ++(0,-1) -| (bloco_16.south);
+
+\end{tikzpicture}
+}
+\label{fig:Barramento - sinais digitais}
+\end{figure}
